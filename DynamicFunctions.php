@@ -42,7 +42,7 @@ function wfDynamicFunctions() {
 	$wgExtDynamicFunctions = new ExtDynamicFunctions();
 
 	$wgParser->setFunctionHook( 'arg', array( &$wgExtDynamicFunctions, 'arg' ) );
-	$wgParser->setFunctionHook( 'ip', array( &$wgExtDynamicFunctions, 'ip' ) );
+	// $wgParser->setFunctionHook( 'ip', array( &$wgExtDynamicFunctions, 'ip' ) );
 	$wgParser->setFunctionHook( 'rand', array( &$wgExtDynamicFunctions, 'rand' ), SFH_OBJECT_ARGS );
 	$wgParser->setFunctionHook( 'skin', array( &$wgExtDynamicFunctions, 'skin' ) );
 }
