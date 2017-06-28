@@ -68,7 +68,7 @@ class ExtDynamicFunctions {
 
 	function ip( &$parser ) {
 		$parser->disableCache();
-		return wfGetIP();
+		return RequestContext::getMain()->getRequest()->getIP();
 	}
 
 	function rand( &$parser, $frame, $args ) {
