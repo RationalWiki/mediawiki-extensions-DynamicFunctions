@@ -16,8 +16,6 @@
  {{#skin:}}    Returns the name of the current skin.
 
  Author: Algorithm [http://meta.wikimedia.org/wiki/User:Algorithm]
- Version 1.1 (11/25/06)
-
 */
 
 # Not a valid entry point, skip unless MEDIAWIKI is defined
@@ -28,9 +26,8 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 $wgExtensionFunctions[] = 'wfDynamicFunctions';
 $wgExtensionCredits['parserhook'][] = array(
 	'name' => 'DynamicFunctions',
-	'version' => '1.1',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:DynamicFunctions',
-	'author' => 'Ross McClure',   
+	'author' => 'Ross McClure',
 	'description' => 'Defines an additional set of parser functions.'
 );
 
@@ -60,18 +57,35 @@ function wfDynamicFunctionsLanguageGetMagic( &$magicWords, $langCode ) {
 
 class ExtDynamicFunctions {
 
-	function arg( &$parser, $name = '', $default = '' ) {
+	/**
+	 * @param Parser $parser
+	 * @param string $name
+	 * @param string $default
+	 * @return string|null
+	 */
+	function arg( $parser, $name = '', $default = '' ) {
 		global $wgRequest;
 		$parser->disableCache();
 		return $wgRequest->getVal($name, $default);
 	}
 
-	function ip( &$parser ) {
+	/**
+	 * @param Parser $parser
+	 * @return string
+	 * @throws MWException
+	 */
+	function ip( $parser ) {
 		$parser->disableCache();
 		return RequestContext::getMain()->getRequest()->getIP();
 	}
 
-	function rand( &$parser, $frame, $args ) {
+	/**
+	 * @param Parser $parser
+	 * @param PPFrame $frame
+	 * @param $args
+	 * @return int
+	 */
+	function rand( $parser, $frame, $args ) {
 		$a = isset( $args[0] ) ? $frame->expand( $args[0] ) : 0;
 		$b = isset( $args[1] ) ? $frame->expand( $args[1] ) : 1;
 		$parser->disableCache();
@@ -81,7 +95,11 @@ class ExtDynamicFunctions {
 		return mt_rand( intval($a), intval($b) );
 	}
 
-	function skin( &$parser ) {
+	/**
+	 * @param Parser $parser
+	 * @return string
+	 */
+	function skin( $parser ) {
 		global $wgUser, $wgRequest;
 		$parser->disableCache();
 		return $wgRequest->getVal('useskin', $wgUser->getOption('skin'));
